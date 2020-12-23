@@ -9,8 +9,19 @@ class Server extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'game_id',
+        'name',
+        'players',
+        'max_players',
+        'map',
+        'online',
+        'password',
+        'secure',
+    ];
+
     public function game()
     {
-        $this->belongsTo(Game::class);
+       return $this->belongsTo(Game::class);
     }
 }

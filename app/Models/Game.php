@@ -17,6 +17,6 @@ class Game extends Model
 
     public function servers()
     {
-        $this->hasMany(Server::class);
+       return $this->hasMany(Server::class);
     }
 }
