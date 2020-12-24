@@ -20,6 +20,8 @@ class User extends Authenticatable
         'steam_id',
         'avatar',
         'player_level',
+        'avatar_small',
+        'avatar_medium',
     ];
 
     /**

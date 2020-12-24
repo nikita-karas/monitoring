@@ -60,6 +60,12 @@ class SteamAuthController extends Controller
         return redirect($this->redirectTo);
     }
 
+    public function logout()
+    {
+        Auth::logout();
+        return redirect($this->redirectTo);
+    }
+
     /**
      * Get the first user by SteamID or create new
      *
@@ -73,6 +79,8 @@ class SteamAuthController extends Controller
         ], [
             'name' => $data->getPersonaName(),
             'avatar' => $data->getAvatarFull(),
+            'avatar_small' => $data->getAvatar(),
+            'avatar_medium' => $data->getAvatarMedium(),
             'player_level' => $data->getPlayerLevel(),
             // ...and other what you need
         ]);
