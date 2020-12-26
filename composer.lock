@@ -4932,7 +4932,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "LGPL-2.1"
+                "LGps-2.1"
             ],
             "description": "PHP library to query and send RCON commands to servers based on \"Source Engine Query\" protocol",
             "homepage": "https://github.com/xPaw/PHP-Source-Query",
