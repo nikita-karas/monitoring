@@ -1,0 +1,1 @@
+window.ApexCharts = require('apexcharts');

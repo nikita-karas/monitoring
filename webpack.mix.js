@@ -11,7 +11,30 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/js/app.js', 'public/js')
-    .postCss('resources/css/app.css', 'public/css', [
-        //
-    ]);
+mix
+    .js("resources/js/app.js", "public/js")
+    .js("resources/js/main.js", "public/js")
+    .sass("resources/scss/app.scss", "public/css")
+    .sass("resources/scss/bootstrap.scss", "public/css");
+
+mix.js("resources/js/vendor/apexcharts.js", "public/js/vendor")
+    .js("resources/js/vendor/feather-icons.js", "public/js/vendor")
+    .js("resources/js/vendor/chartjs.js", "public/js/vendor");
+
+mix.minify([
+    'public/js/app.js',
+    'public/js/main.js',
+
+    'public/css/app.css',
+    'public/css/bootstrap.css',
+
+    'public/js/vendor/apexcharts.js',
+    'public/js/vendor/feather-icons.js',
+    'public/js/vendor/chartjs.js'
+]);
+
+
+
+if (mix.inProduction()) {
+    mix.version();
+}
