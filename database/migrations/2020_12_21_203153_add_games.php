@@ -10,17 +10,17 @@ class AddGames extends Migration
         [
             'app_id' => '10',
             'name' => 'Counter-Strike 1.6',
-            'url' => 'cs',
+            'url' => 'cstrike',
         ],
         [
             'app_id' => '440',
             'name' => 'Team Fortress 2',
-            'url' => 'tf2',
+            'url' => 'tf',
         ],
         [
             'app_id' => '550',
             'name' => 'Left 4 Dead 2',
-            'url' => 'l4d2',
+            'url' => 'left4dead2',
         ],
         [
             'app_id' => '730',
@@ -40,12 +40,12 @@ class AddGames extends Migration
         [
             'app_id' => '4000',
             'name' => 'Garrys Mod',
-            'url' => 'gmod',
+            'url' => 'garrysmod',
         ],
         [
             'app_id' => '17710',
             'name' => 'Nuclear Dawn',
-            'url' => 'nd',
+            'url' => 'nucleardawn',
         ],
         [
             'app_id' => '70000',
@@ -55,7 +55,7 @@ class AddGames extends Migration
         [
             'app_id' => '107410',
             'name' => 'Arma 3',
-            'url' => 'arma3',
+            'url' => 'Arma3',
         ],
         [
             'app_id' => '115300',
@@ -65,17 +65,17 @@ class AddGames extends Migration
         [
             'app_id' => '211820',
             'name' => 'Starbound',
-            'url' => 'starb',
+            'url' => 'starbound',
         ],
         [
             'app_id' => '244850',
             'name' => 'Space Engineers',
-            'url' => 'se',
+            'url' => 'Space Engineers',
         ],
         [
             'app_id' => '251570',
             'name' => '7 Days to Die',
-            'url' => '7dtd',
+            'url' => '7DTD',
         ],
         [
             'app_id' => '252490',
@@ -85,12 +85,12 @@ class AddGames extends Migration
         [
             'app_id' => '282440',
             'name' => 'Quake Live',
-            'url' => 'quakel',
+            'url' => 'baseq3',
         ],
         [
             'app_id' => '346110',
             'name' => 'ARK: Survival Evolved',
-            'url' => 'arkse',
+            'url' => 'ark_survival_evolved',
         ],
     ];
 

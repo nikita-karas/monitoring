@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Auth\SteamAuthController;
+use App\Http\Controllers\ServerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,3 +20,11 @@ use App\Http\Controllers\AdminController;
 Route::prefix('admin')->group(function () {
     Route::get('/', [AdminController::class, 'index']);
 });
+
+Route::prefix('auth')->group( function () {
+    Route::get('login', [SteamAuthController::class, 'login']);
+    Route::get('logout', [SteamAuthController::class, 'logout']);
+});
+
+Route::get('/server/add', [ServerController::class, 'index']);
+Route::post('/server/add', [ServerController::class, 'addServer'])->name('server.store');

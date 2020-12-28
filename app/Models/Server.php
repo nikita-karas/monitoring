@@ -11,6 +11,8 @@ class Server extends Model
 
     protected $fillable = [
         'game_id',
+        'ip',
+        'port',
         'name',
         'players',
         'max_players',
@@ -18,6 +20,7 @@ class Server extends Model
         'online',
         'password',
         'secure',
+        'fail_attempts',
     ];
 
     public function game()
