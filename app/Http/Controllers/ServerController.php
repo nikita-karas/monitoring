@@ -53,7 +53,6 @@ class ServerController extends Controller
 
             $game = Game::query()->where('url', $arrInfo['ModDir'])->value('id');
 
-            dump($arrInfo);
             $server = new Server();
             $server->game_id = $game;
             $server->ip = $validator['ip'];
