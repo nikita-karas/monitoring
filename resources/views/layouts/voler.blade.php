@@ -43,78 +43,78 @@
                         </li>
 
 
-                        <li class="sidebar-item  has-sub">
-                            <a href="#" class='sidebar-link'>
-                                <i data-feather="layers" width="20"></i>
-                                <span>Games</span>
-                            </a>
+                        {{--<li class="sidebar-item  has-sub">
+                             <a href="#" class='sidebar-link'>
+                                 <i data-feather="layers" width="20"></i>
+                                 <span>Games</span>
+                             </a>
 
-                            <ul class="submenu ">
+                             <ul class="submenu ">
 
-                                @foreach($games as $game)
-                                    <li>
-                                        <a href="component-alert.html">{{ $game['name'] }}</a>
-                                    </li>
-                                @endforeach
-                                {{--<li>
-                                    <a href="component-alert.html">Alert</a>
-                                </li>
+                                 @foreach($games as $game)
+                                     <li>
+                                         <a href="component-alert.html">{{ $game['name'] }}</a>
+                                     </li>
+                                 @endforeach
+                                 <li>
+                                     <a href="component-alert.html">Alert</a>
+                                 </li>
 
-                                <li>
-                                    <a href="component-badge.html">Badge</a>
-                                </li>
+                                 <li>
+                                     <a href="component-badge.html">Badge</a>
+                                 </li>
 
-                                <li>
-                                    <a href="component-breadcrumb.html">Breadcrumb</a>
-                                </li>
+                                 <li>
+                                     <a href="component-breadcrumb.html">Breadcrumb</a>
+                                 </li>
 
-                                <li>
-                                    <a href="component-buttons.html">Buttons</a>
-                                </li>
+                                 <li>
+                                     <a href="component-buttons.html">Buttons</a>
+                                 </li>
 
-                                <li>
-                                    <a href="component-card.html">Card</a>
-                                </li>
+                                 <li>
+                                     <a href="component-card.html">Card</a>
+                                 </li>
 
-                                <li>
-                                    <a href="component-carousel.html">Carousel</a>
-                                </li>
+                                 <li>
+                                     <a href="component-carousel.html">Carousel</a>
+                                 </li>
 
-                                <li>
-                                    <a href="component-dropdowns.html">Dropdowns</a>
-                                </li>
+                                 <li>
+                                     <a href="component-dropdowns.html">Dropdowns</a>
+                                 </li>
 
-                                <li>
-                                    <a href="component-list-group.html">List Group</a>
-                                </li>
+                                 <li>
+                                     <a href="component-list-group.html">List Group</a>
+                                 </li>
 
-                                <li>
-                                    <a href="component-modal.html">Modal</a>
-                                </li>
+                                 <li>
+                                     <a href="component-modal.html">Modal</a>
+                                 </li>
 
-                                <li>
-                                    <a href="component-navs.html">Navs</a>
-                                </li>
+                                 <li>
+                                     <a href="component-navs.html">Navs</a>
+                                 </li>
 
-                                <li>
-                                    <a href="component-pagination.html">Pagination</a>
-                                </li>
+                                 <li>
+                                     <a href="component-pagination.html">Pagination</a>
+                                 </li>
 
-                                <li>
-                                    <a href="component-progress.html">Progress</a>
-                                </li>
+                                 <li>
+                                     <a href="component-progress.html">Progress</a>
+                                 </li>
 
-                                <li>
-                                    <a href="component-spinners.html">Spinners</a>
-                                </li>
+                                 <li>
+                                     <a href="component-spinners.html">Spinners</a>
+                                 </li>
 
-                                <li>
-                                    <a href="component-tooltips.html">Tooltips</a>
-                                </li>--}}
+                                 <li>
+                                     <a href="component-tooltips.html">Tooltips</a>
+                                 </li>
 
-                            </ul>
+                             </ul>
 
-                        </li>
+                        </li>--}}
 
 
                     </ul>
@@ -183,8 +183,8 @@
                         </a>
                         <div class="dropdown-menu dropdown-menu-end">
                             <a class="dropdown-item" href="https://steamcommunity.com/profiles/{{ $user['steam_id'] }}"><i data-feather="user"></i> Account</a>
-                            <a class="dropdown-item active" href="#"><i data-feather="mail"></i> Messages</a>
-                            <a class="dropdown-item" href="#"><i data-feather="settings"></i> Settings</a>
+                            {{--<a class="dropdown-item active" href="#"><i data-feather="mail"></i> Messages</a>
+                            <a class="dropdown-item" href="#"><i data-feather="settings"></i> Settings</a>--}}
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="{{ route('logout') }}"><i data-feather="log-out"></i> Logout</a>
                         </div>

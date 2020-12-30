@@ -1,7 +1,7 @@
 @extends('layouts.voler')
 @section('content')
 
-            <div class="card">
+            <div class="card col-md-7 col-sm-12 mx-auto">
                 <div class="card-header border-bottom d-flex justify-content-between align-items-center">
                     <h4 class="card-title d-flex">
                         Add server
