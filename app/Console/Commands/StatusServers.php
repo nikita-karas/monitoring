@@ -52,24 +52,8 @@ class StatusServers extends Command
         foreach ($data as $server) {
 
             $port = $server['port'];
-            $engine = SourceQuery::SOURCE;
-            switch ($server->game['app_id']) {
-                case 10:
-                    $engine = SourceQuery::GOLDSOURCE;
-                    break;
-                /**
-                 * If the game has appID = 107410 || 244850 – need to add +1 to the server port.
-                 *
-                 * https://github.com/xPaw/PHP-Source-Query#supported-games
-                 */
-                case 107410:
-                case 244850:
-                    $port++;
-                    break;
-            }
-
             try {
-                $Query->Connect($server['ip'], $port, $this->timeout, $engine);
+                $Query->Connect($server['ip'], $server->game->getQueryPort($port), $this->timeout, $server->game->getQueryEngine());
 
                 $arrInfo = $Query->GetInfo();
 
