@@ -20,7 +20,7 @@ use App\Http\Controllers\ServerController;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::prefix('auth')->group( function () {
-    Route::get('login', [SteamAuthController::class, 'login']);
+    Route::get('login', [SteamAuthController::class, 'login'])->name('login');
     Route::get('logout', [SteamAuthController::class, 'logout'])->name('logout');
 });
 
@@ -30,4 +30,8 @@ Route::prefix('/add')->group( function () {
 });
 
 Route::get('/test', [TestController::class, 'index']);
+
+Route::fallback( function () {
+    abort(404);
+});
 

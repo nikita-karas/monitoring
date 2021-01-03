@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title')</title>
+    <title>{{ $title }}</title>
 
     <link rel="stylesheet" href="{{ mix('css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ mix('css/app.min.css') }}">
@@ -33,7 +33,7 @@
 
                         </li>
 
-
+                        @if($user)
                         <li class="sidebar-item  ">
                             <a href="{{ route('addpage') }}" class='sidebar-link'>
                                 <i data-feather="file-plus" width="20"></i>
@@ -41,9 +41,10 @@
                             </a>
 
                         </li>
+                        @endif
 
 
-                        {{--<li class="sidebar-item  has-sub">
+                        <li class="sidebar-item  has-sub">
                              <a href="#" class='sidebar-link'>
                                  <i data-feather="layers" width="20"></i>
                                  <span>Games</span>
@@ -56,7 +57,7 @@
                                          <a href="component-alert.html">{{ $game['name'] }}</a>
                                      </li>
                                  @endforeach
-                                 <li>
+                                 {{--<li>
                                      <a href="component-alert.html">Alert</a>
                                  </li>
 
@@ -110,17 +111,18 @@
 
                                  <li>
                                      <a href="component-tooltips.html">Tooltips</a>
-                                 </li>
+                                 </li>--}}
 
                              </ul>
 
-                        </li>--}}
+                        </li>
 
 
                     </ul>
                 </div>
                 <button class="sidebar-toggler btn x"><i data-feather="x"></i></button>
             </div>
+
         </div>
     @show
     <div id="main">
@@ -156,21 +158,6 @@
                                 </li>
                             </ul>
                         </div>
-                    </li>
-                    <li class="dropdown nav-icon me-2">
-                        <a href="#" data-bs-toggle="dropdown"
-                           class="nav-link  dropdown-toggle nav-link-lg nav-link-user">
-                            <div class="d-lg-inline-block">
-                                <i data-feather="mail"></i>
-                            </div>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-end">
-                            <a class="dropdown-item" href="#"><i data-feather="user"></i> Account</a>
-                            <a class="dropdown-item" href="#"><i data-feather="mail"></i> Messages</a>
-                            <a class="dropdown-item" href="#"><i data-feather="settings"></i> Settings</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#"><i data-feather="log-out"></i> Logout</a>
-                        </div>
                     </li>--}}
                     @if ($user)
                     <li class="dropdown">
@@ -189,6 +176,14 @@
                             <a class="dropdown-item" href="{{ route('logout') }}"><i data-feather="log-out"></i> Logout</a>
                         </div>
                     </li>
+                    @else
+                        <li class="dropdown nav-icon me-2">
+                            <a href="{{ route('login') }}">
+                                <div class="d-lg-inline-block">
+                                    <i data-feather="log-in"></i>
+                                </div>
+                            </a>
+                        </li>
                     @endif
                 </ul>
             </div>

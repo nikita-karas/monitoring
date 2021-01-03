@@ -16,9 +16,10 @@ class ServerController extends Controller
     public function index()
     {
         if (Auth::check()) {
-            $user = Auth::user();
-            $games = Game::query()->get();
-            return view('server', compact('user', 'games'));
+            return view('server')->with([
+                'games' => Game::query()->get(),
+                'title' => 'Add server',
+            ]);
         } else {
             return redirect('/auth/login');
         }
