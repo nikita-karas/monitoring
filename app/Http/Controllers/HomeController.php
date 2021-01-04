@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Game;
+use App\Models\Server;
 
 class HomeController extends Controller
 {
@@ -10,6 +11,7 @@ class HomeController extends Controller
     {
         return view('index')->with([
             'games' => Game::query()->get(),
+            'servers' => Server::with('game')->get(),
             'title' => 'Home page',
         ]);
     }
