@@ -105,6 +105,12 @@ return [
             'path' => storage_path('logs/servers_update.log'),
             'level' => 'info',
         ],
+
+        'addserverlog' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/add_server.log'),
+            'level' => 'info',
+        ],
     ],
 
 ];
