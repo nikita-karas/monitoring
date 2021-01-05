@@ -51,9 +51,8 @@ class StatusServers extends Command
         $data = Server::with('game')->get();
         foreach ($data as $server) {
 
-            $port = $server['port'];
             try {
-                $Query->Connect($server['ip'], $server->game->getQueryPort($port), $this->timeout, $server->game->getQueryEngine());
+                $Query->Connect($server['ip'], $server['port'], $this->timeout, $server->game->getQueryEngine());
 
                 $arrInfo = $Query->GetInfo();
 
@@ -66,6 +65,7 @@ class StatusServers extends Command
                         'online' => true,
                         'password' => $arrInfo['Password'],
                         'secure' => $arrInfo['Secure'],
+                        'fail_attempts' => 0,
                     ]);
                 $updatedServers++;
             } catch (Exception $e) {
