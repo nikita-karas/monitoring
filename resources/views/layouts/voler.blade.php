@@ -52,9 +52,9 @@
 
                             <ul class="submenu ">
 
-                                @foreach($games as $game)
+                                @foreach($data->get() as $game)
                                     <li>
-                                        <a href="component-alert.html">{{ $game['name'] }}</a>
+                                        <a href="/{{ $game['url'] }}">{{ $game['name'] }}</a>
                                     </li>
                                 @endforeach
                             </ul>

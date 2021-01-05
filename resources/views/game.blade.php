@@ -3,7 +3,7 @@
 
     <div class="card">
         <div class="card-header">
-            <h3>All servers</h3>
+            <h3>{{ $title }} Servers</h3>
         </div>
         <div class="card-body">
             <table class="table">
@@ -17,7 +17,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($data->get() as $game)
+                @foreach($data->where('url', $slug)->get() as $game)
                     @foreach ($game->servers as $server)
                         <tr class=@if($server['online'])"table-success"> @else "table-dark"> @endif
                             <td>{{ $server['id'] }}</td>

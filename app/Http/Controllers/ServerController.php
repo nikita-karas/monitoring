@@ -18,7 +18,6 @@ class ServerController extends Controller
     {
         if (Auth::check()) {
             return view('server')->with([
-                'games' => Game::query()->get(),
                 'title' => 'Add server',
             ]);
         } else {

@@ -5,6 +5,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\Auth\SteamAuthController;
 use App\Http\Controllers\ServerController;
+use App\Http\Controllers\GamePageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,6 +31,8 @@ Route::prefix('/add')->group( function () {
 });
 
 Route::get('/test', [TestController::class, 'index']);
+
+Route::get('/{slug}', [GamePageController::class, 'index']);
 
 Route::fallback( function () {
     abort(404);
