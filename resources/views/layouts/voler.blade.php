@@ -35,7 +35,7 @@
 
                         @if($user)
                             <li class="sidebar-item  ">
-                                <a href="{{ route('addpage') }}" class='sidebar-link'>
+                                <a href="{{ route('server.add.page') }}" class='sidebar-link'>
                                     <i data-feather="file-plus" width="20"></i>
                                     <span>Add server</span>
                                 </a>
@@ -52,9 +52,9 @@
 
                             <ul class="submenu ">
 
-                                @foreach($data->get() as $game)
+                                @foreach($games as $game)
                                     <li>
-                                        <a href="/{{ $game['url'] }}">{{ $game['name'] }}</a>
+                                        <a href="{{ route('gamepage', ['slug' => "{$game['url']}"]) }}">{{ $game['name'] }}</a>
                                     </li>
                                 @endforeach
                             </ul>
@@ -133,9 +133,10 @@
     <script src="{{ mix('js/app.min.js') }}"></script>
     <script src="{{ mix('js/main.min.js') }}"></script>
     <script src="{{ mix('js/vendor/feather-icons.min.js') }}"></script>
-    <script src="{{ mix('js/vendor/apexcharts.min.js') }}"></script>
-    <script src="{{ mix('js/vendor/chartjs.min.js') }}"></script>
-    <script src="{{ asset('js/pages/dashboard.js') }}"></script>
+    <script src="{{ asset('js/vendor/simple-datatables.js') }}"></script>
+    <script>
+        var table = new simpleDatatables.DataTable("table");
+    </script>
 @show
 </body>
 </html>

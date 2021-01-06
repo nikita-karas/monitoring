@@ -1,11 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\TestController;
+use App\Http\Controllers\MainController;
 use App\Http\Controllers\Auth\SteamAuthController;
-use App\Http\Controllers\ServerController;
-use App\Http\Controllers\GamePageController;
+use App\Http\Controllers\ServerAddController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,23 +16,21 @@ use App\Http\Controllers\GamePageController;
 |
 */
 
-Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::prefix('/')->group(function () {
+    Route::get('/', [MainController::class, 'index'])->name('home');
+    Route::get('/{slug}', [MainController::class, 'showGamePage'])->name('gamepage');
+});
 
-Route::prefix('auth')->group( function () {
+Route::prefix('auth')->group(function () {
     Route::get('login', [SteamAuthController::class, 'login'])->name('login');
     Route::get('logout', [SteamAuthController::class, 'logout'])->name('logout');
 });
 
-Route::prefix('/add')->group( function () {
-    Route::get('/', [ServerController::class, 'index'])->name('addpage');
-    Route::post('/', [ServerController::class, 'addServer'])->name('server.store');
+Route::prefix('/add')->group(function () {
+    Route::get('/', [ServerAddController::class, 'index'])->name('server.add.page');
+    Route::post('/', [ServerAddController::class, 'addServer'])->name('server.store');
 });
 
-Route::get('/test', [TestController::class, 'index']);
-
-Route::get('/{slug}', [GamePageController::class, 'index']);
-
-Route::fallback( function () {
+Route::fallback(function () {
     abort(404);
 });
-

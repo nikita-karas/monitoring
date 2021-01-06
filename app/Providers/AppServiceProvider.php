@@ -29,7 +29,6 @@ class AppServiceProvider extends ServiceProvider
         View::composer('*', function ($view) {
             $view->with([
                 'user' => Auth::user(),
-                'data' => Game::with('servers'),
             ]);
         });
     }

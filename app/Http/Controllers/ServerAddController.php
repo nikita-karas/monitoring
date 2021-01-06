@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Log;
 use xPaw\SourceQuery\SourceQuery;
 use Exception;
 
-class ServerController extends Controller
+class ServerAddController extends Controller
 {
     private int $timeout = 3;
 
@@ -18,6 +18,7 @@ class ServerController extends Controller
     {
         if (Auth::check()) {
             return view('server')->with([
+                'games' => Game::query()->get(),
                 'title' => 'Add server',
             ]);
         } else {

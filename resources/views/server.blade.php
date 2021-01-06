@@ -28,7 +28,7 @@
                                     <fieldset class="form-group">
                                         <label for="game">Game</label>
                                         <select class="form-select" id="game" name="game">
-                                            @foreach($data->get() as $game)
+                                            @foreach($games as $game)
                                                 <option value="{{ $game['id'] }}">{{ $game['name'] }}</option>
                                             @endforeach
                                         </select>
