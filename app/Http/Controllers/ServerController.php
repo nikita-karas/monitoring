@@ -5,20 +5,18 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Game;
-use App\Models\Server;
 use Illuminate\Support\Facades\Log;
 use xPaw\SourceQuery\SourceQuery;
 use Exception;
 
-class ServerAddController extends Controller
+class ServerController extends Controller
 {
     private int $timeout = 3;
 
     public function index()
     {
         if (Auth::check()) {
-            return view('server')->with([
-                'games' => Game::query()->get(),
+            return view('pages.server')->with([
                 'title' => 'Add server',
             ]);
         } else {
@@ -37,7 +35,7 @@ class ServerAddController extends Controller
         $port = $validator['port'];
         $game = Game::find($validator['game']);
 
-        $duplServer = Server::query()->where([
+        $duplServer = ServerController::query()->where([
             ['ip', $validator['ip']],
             ['port', $game->getQueryPort($port)]
         ])->get();
@@ -52,7 +50,7 @@ class ServerAddController extends Controller
 
             $arrInfo = $Query->GetInfo();
 
-            $server = new Server();
+            $server = new ServerController();
             $server->game_id = $validator['game'];
             $server->ip = $validator['ip'];
             $server->port = $game->getQueryPort($port);
@@ -65,10 +63,10 @@ class ServerAddController extends Controller
             $server->secure = $arrInfo['Secure'];
             $server->fail_attempts = 0;
             $server->save();
-            $result = "Server added:
+            $result = "ServerController added:
 Game - {$game->name} | Name - '{$arrInfo['HostName']}' | IP:PORT - {$validator['ip']}:{$game->getQueryPort($port)}";
             Log::channel('addserverlog')->info($result);
-            return back()->with('status', 'Server added successfully!');
+            return back()->with('status', 'ServerController added successfully!');
         } catch (Exception $e) {
             return back()->withErrors(["server_error" => "{$e->getMessage()}."]);
         } finally {

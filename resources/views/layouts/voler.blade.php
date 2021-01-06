@@ -6,7 +6,7 @@
     <title>{{ $title }}</title>
     <link rel="stylesheet" href="{{ mix('css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ mix('css/app.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/simple-datatables/style.css') }}">
+    @stack('simple-stylesheets')
     <link rel="shortcut icon" href="{{ asset('images/favicon.svg') }}" type="image/x-icon">
     <link rel="shortcut icon" href="{{ asset('images/logo.svg') }}" type="image/x-icon">
 </head>
@@ -54,7 +54,7 @@
 
                                 @foreach($games as $game)
                                     <li>
-                                        <a href="{{ route('gamepage', ['slug' => "{$game['url']}"]) }}">{{ $game['name'] }}</a>
+                                        <a href="{{ route('game.page', ['slug' => $game['url']]) }}">{{ $game['name'] }}</a>
                                     </li>
                                 @endforeach
                             </ul>
@@ -133,10 +133,7 @@
     <script src="{{ mix('js/app.min.js') }}"></script>
     <script src="{{ mix('js/main.min.js') }}"></script>
     <script src="{{ mix('js/vendor/feather-icons.min.js') }}"></script>
-    <script src="{{ asset('js/vendor/simple-datatables.js') }}"></script>
-    <script>
-        var table = new simpleDatatables.DataTable("table");
-    </script>
+    @stack('simple-script')
 @show
 </body>
 </html>
