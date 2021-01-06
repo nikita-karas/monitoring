@@ -16,12 +16,9 @@ use App\Http\Controllers\ServerAddController;
 |
 */
 
-Route::prefix('/')->group(function () {
-    Route::get('/', [MainController::class, 'index'])->name('home');
-    Route::get('/{slug}', [MainController::class, 'showGamePage'])->name('gamepage');
-});
+Route::get('/', [MainController::class, 'index'])->name('home');
 
-Route::prefix('auth')->group(function () {
+Route::prefix('/auth')->group(function () {
     Route::get('login', [SteamAuthController::class, 'login'])->name('login');
     Route::get('logout', [SteamAuthController::class, 'logout'])->name('logout');
 });
@@ -30,6 +27,8 @@ Route::prefix('/add')->group(function () {
     Route::get('/', [ServerAddController::class, 'index'])->name('server.add.page');
     Route::post('/', [ServerAddController::class, 'addServer'])->name('server.store');
 });
+
+Route::get('/{slug}', [MainController::class, 'showGamePage'])->name('gamepage');
 
 Route::fallback(function () {
     abort(404);
