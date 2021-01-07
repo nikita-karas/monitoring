@@ -14,6 +14,7 @@
                     <th>Name</th>
                     <th>IP:Port</th>
                     <th>Players</th>
+                    <th>Map</th>
                     <th>Status</th>
                 </tr>
                 </thead>

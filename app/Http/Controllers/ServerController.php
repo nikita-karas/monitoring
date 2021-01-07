@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Game;
+use App\Models\Server;
 use Illuminate\Support\Facades\Log;
 use xPaw\SourceQuery\SourceQuery;
 use Exception;
@@ -35,7 +36,7 @@ class ServerController extends Controller
         $port = $validator['port'];
         $game = Game::find($validator['game']);
 
-        $duplServer = ServerController::query()->where([
+        $duplServer = Server::query()->where([
             ['ip', $validator['ip']],
             ['port', $game->getQueryPort($port)]
         ])->get();
@@ -50,7 +51,7 @@ class ServerController extends Controller
 
             $arrInfo = $Query->GetInfo();
 
-            $server = new ServerController();
+            $server = new Server();
             $server->game_id = $validator['game'];
             $server->ip = $validator['ip'];
             $server->port = $game->getQueryPort($port);
@@ -63,10 +64,10 @@ class ServerController extends Controller
             $server->secure = $arrInfo['Secure'];
             $server->fail_attempts = 0;
             $server->save();
-            $result = "ServerController added:
+            $result = "Server added:
 Game - {$game->name} | Name - '{$arrInfo['HostName']}' | IP:PORT - {$validator['ip']}:{$game->getQueryPort($port)}";
             Log::channel('addserverlog')->info($result);
-            return back()->with('status', 'ServerController added successfully!');
+            return back()->with('status', 'Server added successfully!');
         } catch (Exception $e) {
             return back()->withErrors(["server_error" => "{$e->getMessage()}."]);
         } finally {
