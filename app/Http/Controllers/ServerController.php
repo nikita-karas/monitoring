@@ -66,7 +66,7 @@ class ServerController extends Controller
             $server->save();
             $result = "Server added:
 Game - {$game->name} | Name - '{$arrInfo['HostName']}' | IP:PORT - {$validator['ip']}:{$game->getQueryPort($port)}";
-            Log::channel('addserverlog')->info($result);
+            Log::channel('addlog')->info($result);
             return back()->with('status', 'Server added successfully!');
         } catch (Exception $e) {
             return back()->withErrors(["server_error" => "{$e->getMessage()}."]);

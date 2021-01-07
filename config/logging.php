@@ -102,13 +102,19 @@ return [
 
         'statuslog' => [
             'driver' => 'single',
-            'path' => storage_path('logs/servers_update.log'),
+            'path' => storage_path('logs/update.log'),
             'level' => 'info',
         ],
 
-        'addserverlog' => [
+        'addlog' => [
             'driver' => 'single',
-            'path' => storage_path('logs/add_server.log'),
+            'path' => storage_path('logs/add.log'),
+            'level' => 'info',
+        ],
+
+        'parselog' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/parse.log'),
             'level' => 'info',
         ],
     ],
