@@ -45,31 +45,33 @@ class ParseServers extends Command
      */
     public function handle()
     {
-        $arrGames = [
-            '10' => '1',
-            '22' => '2',
-            '50' => '3',
-            '71' => '4',
-            '65' => '7',
-            '81' => '10',
-            '77' => '15',
+        $Games = [
+            '10' => '1', // Counter-Strike 1.6
+            '22' => '2', // Team Fortress 2
+            '50' => '3', // Left 4 Dead 2
+            '71' => '4', // Counter-Strike: Global Offensive
+            '65' => '7', // Garrys Mod
+            '81' => '10', // Arma 3
+            '77' => '15', // Rust
         ];
 
-        foreach ($arrGames as $mod => $gameId) {
+
+        foreach ($Games as $mod => $gameId) {
 
             $addedServers = 0;
-            $notAdded = 0;
+            $notAddedS = 0;
             for ($iPage = 1; ; $iPage++) {
                 $dom = new Dom;
-                $dom->loadFromUrl("https://www.myarena.ru/monitoring.html?page_n=$iPage&mod=$mod");
-                $a = $dom->find('a');
+                $dom->loadFromUrl("https://www.myarena.ru/monitoring.html?page_n={$iPage}&mod={$mod}");
+                $aTags = $dom->find('div[id=userservers]')->find('a');
 
-                $iString = 0;
-                foreach ($a as $aElement) {
-                    if (preg_match('~\b([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}):([0-9]{1,5}\b)~', $aElement->text, $matches)) {
-                        $iString++;
+                $serversOnPage = 0;
+                foreach ($aTags as $a) {
+                    if (preg_match('~\b([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}):([0-9]{1,5}\b)~', $a->text, $matches)) {
+                        $serversOnPage++;
                         $ip = $matches[1];
                         $port = $matches[2];
+
                         $game = Game::find($gameId);
 
                         $duplServer = Server::query()->where([
@@ -100,22 +102,23 @@ class ParseServers extends Command
                                 $server->save();
                                 $addedServers++;
                             } catch (Exception $e) {
-                                $notAdded++;
+                                $notAddedS++;
                             } finally {
                                 $Query->Disconnect();
                             }
                         } else {
-                            $notAdded++;
+                            $notAddedS++;
                         }
                     }
                 }
-                if ($iString < 6) {
-                    $countServers = $notAdded + $addedServers;
+                if ($serversOnPage === 0) {
+                    $countServers = $addedServers + $notAddedS;
                     $result = "Added $addedServers / $countServers servers for $game->name";
                     $this->info($result);
                     Log::channel('parselog')->info($result);
                     break;
                 }
+
             }
 
         }
