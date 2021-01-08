@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Log;
 use xPaw\SourceQuery\SourceQuery;
 use Exception;
 
-class ParseServers extends Command
+class ParseGamingServers extends Command
 {
     private int $timeout = 3;
 
@@ -19,14 +19,14 @@ class ParseServers extends Command
      *
      * @var string
      */
-    protected $signature = 'parse:servers';
+    protected $signature = 'parse:gamingservers';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Parse all servers from myarena.ru';
+    protected $description = 'Parse all servers from gamingservers.ru';
 
     /**
      * Create a new command instance.
@@ -46,28 +46,33 @@ class ParseServers extends Command
     public function handle()
     {
         $Games = [
-            '10' => '1', // Counter-Strike 1.6
-            '22' => '2', // Team Fortress 2
-            '50' => '3', // Left 4 Dead 2
-            '71' => '4', // Counter-Strike: Global Offensive
-            '65' => '7', // Garrys Mod
-            '81' => '10', // Arma 3
-            '77' => '15', // Rust
+            'cs16' => 1, // Counter-Strike 1.6
+            'teamfortress2' => 2, // Team Fortress 2
+            'left4dead2' => 3, // Left 4 Dead 2
+            'csgo' => 4, // Counter-Strike: Global Offensive
+            'garrysmod' => 7, // Garrys Mod
+            'rust' => 15, // Rust
+            'ark' => 17, // ARK: Survival Evolved
         ];
 
-
-        foreach ($Games as $mod => $gameId) {
+        foreach ($Games as $urlG => $gameId) {
 
             $addedServers = 0;
             $notAddedS = 0;
             for ($iPage = 1; ; $iPage++) {
+
+                $url = "https://gamingservers.ru/{$urlG}/";
+                if ($iPage >= 2) {
+                    $url .= "?page={$iPage}";
+                }
                 $dom = new Dom;
-                $dom->loadFromUrl("https://www.myarena.ru/monitoring.html?page_n={$iPage}&mod={$mod}");
-                $aTags = $dom->find('div[id=userservers]')->find('a');
+                $dom->loadFromUrl($url);
+                $html = $dom->outerHtml;
+                $tdTags = $dom->loadStr($html)->find('td.a');
 
                 $serversOnPage = 0;
-                foreach ($aTags as $a) {
-                    if (preg_match('~\b([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}):([0-9]{1,5}\b)~', $a->text, $matches)) {
+                foreach ($tdTags as $td) {
+                    if (preg_match('~\b([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}):([0-9]{1,5}\b)~', $td, $matches)) {
                         $serversOnPage++;
                         $ip = $matches[1];
                         $port = $matches[2];
@@ -113,7 +118,7 @@ class ParseServers extends Command
                 }
                 if ($serversOnPage === 0) {
                     $countServers = $addedServers + $notAddedS;
-                    $result = "Added $addedServers / $countServers servers for $game->name";
+                    $result = "Added $addedServers / $countServers servers for $game->name from gamingservers";
                     $this->info($result);
                     Log::channel('parselog')->info($result);
                     break;
