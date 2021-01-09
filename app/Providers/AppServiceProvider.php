@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Game;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
@@ -26,6 +27,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Paginator::useBootstrap();
         View::composer('*', function ($view) {
             $view->with([
                 'user' => Auth::user(),

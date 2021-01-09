@@ -9,7 +9,6 @@
             <table class="table">
                 <thead>
                 <tr class="table-light">
-                    <th>id</th>
                     <th>Game</th>
                     <th>Name</th>
                     <th>IP:Port</th>
