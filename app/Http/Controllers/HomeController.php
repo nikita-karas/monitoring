@@ -4,14 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Server;
-use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
     public function index()
     {
         return view('index')->with([
-            'servers' => Server::with('game')->Paginate(50),
+            'servers' => Server::with('game')->orderByRaw("online DESC, players DESC")->Paginate(50),
             'title' => 'Home page',
         ]);
     }

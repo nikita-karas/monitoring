@@ -97,11 +97,12 @@
                             </div>
                         </li>
                     @else
-                        <li class="dropdown nav-icon me-2">
+                        <li class="dropdown nav-icon me-2 text-center">
                             <a href="{{ route('login') }}">
                                 <div class="d-lg-inline-block">
                                     <i data-feather="log-in"></i>
                                 </div>
+                                <div class="text-xs">Sign-in</div>
                             </a>
                         </li>
                     @endif
