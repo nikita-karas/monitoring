@@ -16,7 +16,7 @@ class GameController extends Controller
                 'slug' => $slug,
                 'servers' => Server::whereHas('game', function ($query) use ($slug) {
                     return $query->where('url', $slug);
-                })->orderByRaw("online DESC, players DESC")->Paginate(50),
+                })->orderBy('online', 'DESC')->orderBy('players', 'DESC')->Paginate(50),
                 'title' => "$gameName Servers",
             ]);
         } else {

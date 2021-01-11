@@ -1,6 +1,8 @@
 @extends('layouts.voler')
 @section('content')
 
+    @include('mainGameCard')
+
     <div class="card">
         <div class="card-header">
             <h3>{{ $title }}</h3>
@@ -12,7 +14,7 @@
                 <form method="get" action="{{ route('game.search', ['slug' => $slug]) }}">
                     <div class="form-group row">
                         <div class="col">
-                            <input type="text" class="form-control" id="s" name="s" placeholder="Search...">
+                            <input type="text" class="form-control" name="s" placeholder="Search...">
                         </div>
                         <div class="col-md-auto">
                             <button type="submit" class="btn btn-primary btn-block">Search</button>
@@ -32,7 +34,7 @@
                     </tr>
                     </thead>
                     <tbody class="text-xs">
-                    @include('pages.table', ['servers' => $servers])
+                    @include('table', ['servers' => $servers])
                     </tbody>
                 </table>
             </div>
