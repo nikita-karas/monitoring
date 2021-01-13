@@ -14,7 +14,8 @@ class AddUserIdColumnForServersTable extends Migration
     public function up()
     {
         Schema::table('servers', function (Blueprint $table) {
-            $table->string('user_id')->after('fail_attempts');
+            $table->unsignedBigInteger('user_id')->nullable()->after('fail_attempts');
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

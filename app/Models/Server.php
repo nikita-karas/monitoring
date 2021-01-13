@@ -21,10 +21,16 @@ class Server extends Model
         'password',
         'secure',
         'fail_attempts',
+        'user_id'
     ];
 
     public function game()
     {
        return $this->belongsTo(Game::class);
+    }
+
+    public function user()
+    {
+        return $this->hasOne(User::class);
     }
 }
