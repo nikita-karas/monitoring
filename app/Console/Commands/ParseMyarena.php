@@ -46,13 +46,13 @@ class ParseMyarena extends Command
     public function handle()
     {
         $Games = [
-            '10' => 1, // Counter-Strike 1.6
-            '22' => 2, // Team Fortress 2
-            '50' => 3, // Left 4 Dead 2
-            '71' => 4, // Counter-Strike: Global Offensive
-            '65' => 7, // Garrys Mod
-            '81' => 10, // Arma 3
-            '77' => 15, // Rust
+            10 => 1, // Counter-Strike 1.6
+            22 => 2, // Team Fortress 2
+            50 => 3, // Left 4 Dead 2
+            71 => 4, // Counter-Strike: Global Offensive
+            65 => 7, // Garrys Mod
+            81 => 10, // Arma 3
+            77 => 15, // Rust
         ];
 
 
