@@ -64,7 +64,7 @@ class ServerAddController extends Controller
             $server->password = $arrInfo['Password'];
             $server->secure = $arrInfo['Secure'];
             $server->fail_attempts = 0;
-            $server->user_id = User::where('name', Auth::user()['name'])->value('id');
+            $server->user_id = Auth::user()['id'];
             $server->save();
             $result = "Server added:
 Game - {$game->name} | Name - '{$arrInfo['HostName']}' | IP:PORT - {$validator['ip']}:{$game->getQueryPort($port)}";

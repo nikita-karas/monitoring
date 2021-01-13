@@ -100,12 +100,6 @@ return [
             'path' => storage_path('logs/laravel.log'),
         ],
 
-        'statuslog' => [
-            'driver' => 'single',
-            'path' => storage_path('logs/update.log'),
-            'level' => 'info',
-        ],
-
         'addlog' => [
             'driver' => 'single',
             'path' => storage_path('logs/add.log'),

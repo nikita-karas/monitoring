@@ -29,7 +29,6 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('status:servers')->everyThirtyMinutes();
         $schedule->command('parse:myarena')->everyTwoHours();
     }
 
