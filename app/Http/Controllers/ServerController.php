@@ -20,9 +20,12 @@ class ServerController extends Controller
             try {
                 $Query->Connect($server->ip, $server->port, 3, $server->game->getQueryEngine());
 
-                $serverPlayers = $Query->GetPlayers();
+                $players = $Query->GetPlayers();
+                if (empty($players)){
+                    $players = 'Server is empty';
+                }
             } catch (Exception $e) {
-                $serverPlayers = 'Server connection error';
+                $players = 'Server connection error';
             } finally {
                 $Query->Disconnect();
             }
@@ -30,7 +33,7 @@ class ServerController extends Controller
             return view('pages.server')->with([
                 'title' => 'Server page',
                 'server' => $server,
-                'serverPlayers' => $serverPlayers,
+                'players' => $players,
                 'time' => Carbon::now()->parse($timeUpdate)->diffInMinutes(),
             ]);
         } else {

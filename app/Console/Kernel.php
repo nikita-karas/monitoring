@@ -29,7 +29,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('parse:myarena')->everyTwoHours();
+        $schedule->command('status:servers')->everyFiveMinutes();
+        $schedule->command('parse:myarena')->daily();
+        $schedule->command('parse:gamingservers')->daily();
     }
 
     /**
