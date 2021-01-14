@@ -22,21 +22,20 @@
                     <h4>Player List</h4>
                 </div>
                 <div class="card-body" style="position: relative;">
-                    @if(isset($players[0]['Name']))
+                    @if(!$server->online)
+                        <div class="alert alert-warning">
+                            <h4 class="alert-heading">Fail</h4>
+                            <p>No connection to server</p>
+                        </div>
+                    @elseif(isset($players))
                         @foreach($players as $player)
                             <ul>
                                 <li>{{ $player['Name'] }}</li>
                             </ul>
                         @endforeach
-                    @elseif($players === 'Server is empty')
-                        <p>{{ $players }}</p>
                     @else
-                        <div class="alert alert-warning">
-                            <h4 class="alert-heading">Fail</h4>
-                            <p>{{ $players }}</p>
-                        </div>
+                        <p>Server is empty</p>
                     @endif
-
                 </div>
             </div>
         </div>
