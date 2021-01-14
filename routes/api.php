@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\V1\ServerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,4 +17,15 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+Route::namespace('V1')->prefix('v1')->group(function () {
+    Route::prefix('servers')->group(function () {
+        Route::prefix('{id}')->group(function () {
+            Route::get('', [ServerController::class, 'read']);
+            Route::put('', [ServerController::class, 'update']);
+            Route::post('', [ServerController::class, 'create']);
+            Route::delete('', [ServerController::class, 'delete']);
+        });
+    });
 });
