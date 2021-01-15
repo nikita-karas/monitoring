@@ -21,10 +21,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::prefix('v1')->group(function () {
     Route::prefix('servers')->group(function () {
+        Route::post('create', [ServerController::class, 'create']);
         Route::prefix('{id}')->group(function () {
             Route::get('', [ServerController::class, 'read']);
             Route::put('', [ServerController::class, 'update']);
-            Route::post('', [ServerController::class, 'create']);
             Route::delete('', [ServerController::class, 'delete']);
         });
     });
