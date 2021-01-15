@@ -22,6 +22,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::prefix('v1')->group(function () {
     Route::prefix('servers')->group(function () {
         Route::post('create', [ServerController::class, 'create']);
+        Route::post('search', [ServerController::class, 'search']);
         Route::prefix('{id}')->group(function () {
             Route::get('', [ServerController::class, 'read']);
             Route::put('', [ServerController::class, 'update']);

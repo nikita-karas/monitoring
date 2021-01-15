@@ -15,9 +15,9 @@ class ServerController extends Controller
     public function create(Request $request)
     {
         $validated = $request->validate([
-            'game_id' => 'exists:App\Models\Game,id',
             'ip' => 'required|ip',
             'port' => 'required|integer',
+            'game_id' => 'exists:App\Models\Game,id',
         ]);
 
         $port = $validated['port'];
@@ -30,7 +30,7 @@ class ServerController extends Controller
 
         if (!empty($duplServer[0])) {
             return response()->json([
-                'error' => 'The server already exists in the database',
+                'error' => 'This server exists',
             ], 500);
         }
 
@@ -110,15 +110,41 @@ Game - {$game->name} | Name - '{$arrInfo['HostName']}' | IP:PORT - {$validated['
     public function delete(int $id)
     {
         $server = Server::find($id);
-        if($server){
+        if ($server) {
             $server->delete();
             return response()->json([
                 'status' => 'Server successfully removed'
             ]);
         } else {
             return response()->json([
-                'error' => 'Server successfully removed'
-            ]);
+                'error' => 'Server not found'
+            ], 500);
+        }
+    }
+
+    public function search(Request $request)
+    {
+        $validated = $request->validate([
+            'ip' => 'ip',
+            'name' => 'string',
+            'port' => 'integer',
+            'game_id' => 'exists:App\Models\Game,id',
+        ]);
+
+        if ($validated) {
+            foreach ($validated as $k => $v) {
+                if (!$v) {
+                    unset($k);
+                } else {
+                    $arguments[$k] = $v;
+                }
+            }
+            $server = Server::where($arguments)->paginate(100);
+            return response()->json($server);
+        } else {
+            return response()->json([
+                'error' => 'Server not found'
+            ], 500);
         }
     }
 }
