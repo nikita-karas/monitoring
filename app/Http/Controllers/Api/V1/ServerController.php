@@ -15,9 +15,9 @@ class ServerController extends Controller
     public function create(Request $request)
     {
         $validated = $request->validate([
+            'game_id' => 'exists:App\Models\Game,id',
             'ip' => 'required|ip',
             'port' => 'required|integer',
-            'game_id' => 'exists:App\Models\Game,id',
         ]);
 
         $port = $validated['port'];
@@ -125,25 +125,49 @@ Game - {$game->name} | Name - '{$arrInfo['HostName']}' | IP:PORT - {$validated['
     public function search(Request $request)
     {
         $validated = $request->validate([
-            'ip' => 'ip',
-            'name' => 'string',
-            'port' => 'integer',
             'game_id' => 'exists:App\Models\Game,id',
+            'ip' => 'ip',
+            'port' => 'integer',
+            'name' => 'string',
+            'players' => 'integer',
+            'max_players' => 'integer',
+            'map' => 'string',
+            'online' => 'boolean',
+            'secure' => 'boolean',
         ]);
 
         if ($validated) {
-            foreach ($validated as $k => $v) {
-                if (!$v) {
-                    unset($k);
-                } else {
-                    $arguments[$k] = $v;
+
+            $i = 0;
+            foreach ($validated as $column => $value) {
+                if (!$value) {
+                    unset($column);
+                }
+
+                switch ($column) {
+                    case 'game_id':
+                    case 'ip':
+                    case 'port':
+                    case 'online':
+                    case 'secure':
+                        $paramSets[$i++] = [$column, $value];
+                        break;
+                    case 'name':
+                    case 'map':
+                        $paramSets[$i++] = [$column, 'LIKE', "%{$value}%"];
+                        break;
+                    case 'players':
+                    case 'max_players':
+                        $paramSets[$i++] = [$column, '>=', $value];
+                        break;
                 }
             }
-            $server = Server::where($arguments)->paginate(100);
-            return response()->json($server);
+
+            $servers = Server::where($paramSets)->paginate(100);
+            return response()->json($servers);
         } else {
             return response()->json([
-                'error' => 'Server not found'
+                'error' => 'Servers not found'
             ], 500);
         }
     }
