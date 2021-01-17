@@ -17,9 +17,15 @@ class HomeController extends Controller
 
     public function search(Request $request)
     {
-        $s = $request->s;
-        $servers = Server::with('game')->where('name', 'LIKE', "%{$s}%")->orderBy('name')->paginate(10);
+        $search = $request->s;
+
+        $servers = Server::with('game')
+            ->where('name', 'LIKE', "%{$search}%")
+            ->orderBy('name')
+            ->paginate(50);
+
         return view('index')->with([
+            'search' => $search,
             'servers' => $servers,
             'title' => 'Home page',
         ]);

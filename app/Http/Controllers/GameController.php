@@ -26,11 +26,19 @@ class GameController extends Controller
 
     public function search(Request $request, $slug)
     {
-        $gameName = Game::query()->where('url', $slug)->value('name');
-        $s = $request->s;
-        $servers = Server::with('game')->where('name', 'LIKE', "%{$s}%")->orderBy('name')->paginate(10);
+        $search = $request->s;
+        $gameName = Game::where('url', $slug)->value('name');
+
+        $servers = Server::whereHas('game', function ($q) use ($slug, $search) {
+            $q->where('url', $slug);
+        })
+            ->where('name', 'LIKE', "%{$search}%")
+            ->orderBy('name')
+            ->paginate(50);
+
         return view('pages.game')->with([
             'slug' => $slug,
+            'search' => $search,
             'servers' => $servers,
             'title' => "$gameName Servers",
         ]);

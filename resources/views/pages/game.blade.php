@@ -40,7 +40,11 @@
             </div>
 
             <div class="overflow-auto d-flex justify-content-center">
-                {{ $servers->links() }}
+                @if(isset($search))
+                    {{ $servers->appends(['s' => $search])->links() }}
+                @else
+                    {{ $servers->links() }}
+                @endif
             </div>
 
         </div>
