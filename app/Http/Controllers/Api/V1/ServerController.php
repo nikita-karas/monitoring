@@ -138,7 +138,6 @@ Game - {$game->name} | Name - '{$arrInfo['HostName']}' | IP:PORT - {$validated['
 
         if ($validated) {
 
-            $i = 0;
             foreach ($validated as $column => $value) {
                 if (!$value) {
                     unset($column);
@@ -150,15 +149,15 @@ Game - {$game->name} | Name - '{$arrInfo['HostName']}' | IP:PORT - {$validated['
                     case 'port':
                     case 'online':
                     case 'secure':
-                        $paramSets[$i++] = [$column, $value];
+                        $paramSets[] = [$column, $value];
                         break;
                     case 'name':
                     case 'map':
-                        $paramSets[$i++] = [$column, 'LIKE', "%{$value}%"];
+                        $paramSets[] = [$column, 'LIKE', "%{$value}%"];
                         break;
                     case 'players':
                     case 'max_players':
-                        $paramSets[$i++] = [$column, '>=', $value];
+                        $paramSets[] = [$column, '>=', $value];
                         break;
                 }
             }
