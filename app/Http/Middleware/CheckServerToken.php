@@ -26,11 +26,11 @@ class CheckServerToken
                 $request->merge(["user_id" => $user[0]['id']]);
                 return $next($request);
             } else {
-                return response()->json(['User is not found'], 403);
+                return response()->json('User is not found', 403);
             }
 
         } else {
-            return response()->json(['Token not found'], 403);
+            return response()->json('Token not found', 403);
         }
     }
 }

@@ -15,12 +15,17 @@ class ServerController extends Controller
     public function create(Request $request)
     {
         if ($request->user_id === 5 || $request->user_id === 6) {
-            $validated = $request->validate([
-                'game_id' => 'required|exists:App\Models\Game,id',
-                'user_id' => 'required|exists:App\Models\User,id',
-                'ip' => 'required|ip',
-                'port' => 'required|integer',
-            ]);
+
+            try {
+                $validated = $request->validate([
+                    'game_id' => 'required|exists:App\Models\Game,id',
+                    'user_id' => 'required|exists:App\Models\User,id',
+                    'ip' => 'required|ip',
+                    'port' => 'required|integer',
+                ]);
+            } catch (Exception $e) {
+                return response()->json(['error' => 'Check required fields:', '1' => 'game_id', 'user_id', 'ip', 'port'], 403);
+            }
 
             $port = $validated['port'];
             $game = Game::find($validated['game_id']);
@@ -63,6 +68,7 @@ Game - {$game->name} | Name - '{$arrInfo['HostName']}' | IP:PORT - {$validated['
             } finally {
                 $Query->Disconnect();
             }
+
         } else {
             return response()->json('Access is denied', 403);
         }
