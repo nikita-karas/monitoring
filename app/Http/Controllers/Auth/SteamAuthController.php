@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Ilzrv\LaravelSteamAuth\SteamAuth;
 use Ilzrv\LaravelSteamAuth\SteamData;
+use Illuminate\Support\Str;
 
 class SteamAuthController extends Controller
 {
@@ -82,6 +83,7 @@ class SteamAuthController extends Controller
             'avatar_small' => $data->getAvatar(),
             'avatar_medium' => $data->getAvatarMedium(),
             'player_level' => $data->getPlayerLevel(),
+            'api_token' => Str::random(80),
             // ...and other what you need
         ]);
     }

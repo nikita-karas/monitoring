@@ -22,6 +22,7 @@ class User extends Authenticatable
         'player_level',
         'avatar_small',
         'avatar_medium',
+        'api_token',
     ];
 
     /**
@@ -33,8 +34,8 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    public function server()
+    public function servers()
     {
-        return $this->belongsTo(Server::class);
+        return $this->hasMany(Server::class);
     }
 }

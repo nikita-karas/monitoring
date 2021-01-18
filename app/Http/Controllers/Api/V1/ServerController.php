@@ -14,57 +14,57 @@ class ServerController extends Controller
 {
     public function create(Request $request)
     {
-        $validated = $request->validate([
-            'game_id' => 'exists:App\Models\Game,id',
-            'ip' => 'required|ip',
-            'port' => 'required|integer',
-        ]);
-
-        $port = $validated['port'];
-        $game = Game::find($validated['game_id']);
-
-        $duplServer = Server::query()->where([
-            ['ip', $validated['ip']],
-            ['port', $game->getQueryPort($port)]
-        ])->get();
-
-        if (!empty($duplServer[0])) {
-            return response()->json([
-                'error' => 'This server exists',
-            ], 500);
-        }
-
-        $Query = new SourceQuery();
-        try {
-            $Query->Connect($validated['ip'], $game->getQueryPort($port), 1, $game->getQueryEngine());
-
-            $arrInfo = $Query->GetInfo();
-
-            $server = new Server();
-            $server->game_id = $validated['game_id'];
-            $server->ip = $validated['ip'];
-            $server->port = $game->getQueryPort($port);
-            $server->name = $arrInfo['HostName'];
-            $server->players = $arrInfo['Players'];
-            $server->max_players = $arrInfo['MaxPlayers'];
-            $server->map = $arrInfo['Map'];
-            $server->online = true;
-            $server->password = $arrInfo['Password'];
-            $server->secure = $arrInfo['Secure'];
-            $server->fail_attempts = 0;
-            $server->save();
-            $result = "Server added:
-Game - {$game->name} | Name - '{$arrInfo['HostName']}' | IP:PORT - {$validated['ip']}:{$game->getQueryPort($port)}";
-            Log::channel('addlog')->info($result);
-            return response()->json([
-                'status' => 'Server added successfully',
+        if ($request->user_id === 5 || $request->user_id === 6) {
+            $validated = $request->validate([
+                'game_id' => 'required|exists:App\Models\Game,id',
+                'user_id' => 'required|exists:App\Models\User,id',
+                'ip' => 'required|ip',
+                'port' => 'required|integer',
             ]);
-        } catch (Exception $e) {
-            return response()->json([
-                'error' => $e->getMessage(),
-            ], 500);
-        } finally {
-            $Query->Disconnect();
+
+            $port = $validated['port'];
+            $game = Game::find($validated['game_id']);
+
+            $duplServer = Server::query()->where([
+                ['ip', $validated['ip']],
+                ['port', $game->getQueryPort($port)]
+            ])->get();
+
+            if (!empty($duplServer[0])) {
+                return response()->json('This server exists', 500);
+            }
+
+            $Query = new SourceQuery();
+            try {
+                $Query->Connect($validated['ip'], $game->getQueryPort($port), 1, $game->getQueryEngine());
+
+                $arrInfo = $Query->GetInfo();
+
+                $server = new Server();
+                $server->game_id = $validated['game_id'];
+                $server->ip = $validated['ip'];
+                $server->port = $game->getQueryPort($port);
+                $server->name = $arrInfo['HostName'];
+                $server->players = $arrInfo['Players'];
+                $server->max_players = $arrInfo['MaxPlayers'];
+                $server->map = $arrInfo['Map'];
+                $server->online = true;
+                $server->password = $arrInfo['Password'];
+                $server->secure = $arrInfo['Secure'];
+                $server->fail_attempts = 0;
+                $server->user_id = $validated['user_id'];
+                $server->save();
+                $result = "Server added:
+Game - {$game->name} | Name - '{$arrInfo['HostName']}' | IP:PORT - {$validated['ip']}:{$game->getQueryPort($port)}";
+                Log::channel('addlog')->info($result);
+                return response()->json('Server added successfully');
+            } catch (Exception $e) {
+                return response()->json($e->getMessage(), 500);
+            } finally {
+                $Query->Disconnect();
+            }
+        } else {
+            return response()->json('Access is denied', 403);
         }
     }
 
@@ -72,13 +72,9 @@ Game - {$game->name} | Name - '{$arrInfo['HostName']}' | IP:PORT - {$validated['
     {
         $server = Server::find($id);
         if ($server) {
-            return response()->json([
-                'data' => $server->toArray(),
-            ]);
+            return response()->json($server->toArray());
         } else {
-            return response()->json([
-                'error' => 'Server not found',
-            ], 404);
+            return response()->json('Server not found', 404);
         }
     }
 
@@ -95,14 +91,10 @@ Game - {$game->name} | Name - '{$arrInfo['HostName']}' | IP:PORT - {$validated['
                     'status' => 'Server data updated successfully'
                 ]);
             } catch (Exception $e) {
-                return response()->json([
-                    'error' => $e
-                ], 500);
+                return response()->json($e->getMessage(), 500);
             }
         } else {
-            return response()->json([
-                'error' => 'Server not found'
-            ], 404);
+            return response()->json('Server not found', 404);
         }
     }
 
@@ -112,13 +104,9 @@ Game - {$game->name} | Name - '{$arrInfo['HostName']}' | IP:PORT - {$validated['
         $server = Server::find($id);
         if ($server) {
             $server->delete();
-            return response()->json([
-                'status' => 'Server successfully removed'
-            ]);
+            return response()->json('Server successfully removed');
         } else {
-            return response()->json([
-                'error' => 'Server not found'
-            ], 500);
+            return response()->json('Server not found', 500);
         }
     }
 
@@ -165,9 +153,7 @@ Game - {$game->name} | Name - '{$arrInfo['HostName']}' | IP:PORT - {$validated['
             $servers = Server::where($paramSets)->paginate(100);
             return response()->json($servers);
         } else {
-            return response()->json([
-                'error' => 'Servers not found'
-            ], 500);
+            return response()->json('Servers not found', 500);
         }
     }
 }
