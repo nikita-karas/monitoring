@@ -21,11 +21,11 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::prefix('/v1/servers')->group(function () {
-    Route::post('search', [ServerController::class, 'search']);
-    Route::prefix('{id}')->group(function () {
-        Route::middleware([CheckServerToken::class])->group(function () {
-            Route::post('', [ServerController::class, 'create']);
-            Route::get('', [ServerController::class, 'read']);
+    Route::post('/search', [ServerController::class, 'search']);
+    Route::middleware([CheckServerToken::class])->group(function () {
+        Route::post('/create', [ServerController::class, 'create']);
+        Route::prefix('{id}')->group(function () {
+            Route::get('', [ServerController::class, 'read'])->withoutMiddleware([CheckServerToken::class]);
             Route::put('', [ServerController::class, 'update']);
             Route::delete('', [ServerController::class, 'delete']);
         });

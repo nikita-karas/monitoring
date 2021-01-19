@@ -19,14 +19,23 @@ class CheckServerToken
     {
         if ($request->bearerToken()) {
 
-            $user = User::whereHas('servers', function ($query) use ($request) {
+            if ($request->isMethod('POST')) {
+                $user = User::where('api_token', $request->bearerToken())->first();
+                if ($user) {
+                    $request->merge(['user_id' => $user->id]);
+                    return $next($request);
+                } else {
+                    return response()->json('User is not found', 403);
+                }
+            }
+
+            $userHasServers = User::whereHas('servers', function ($query) use ($request) {
                 $query->where('id', $request->id);
-            })->where('api_token', $request->bearerToken())->get();
-            if (isset($user[0])) {
-                $request->merge(["user_id" => $user[0]['id']]);
+            })->where('api_token', $request->bearerToken())->first();
+            if ($userHasServers) {
                 return $next($request);
             } else {
-                return response()->json('User is not found', 403);
+                return response()->json('User is not the owner of this server', 403);
             }
 
         } else {
