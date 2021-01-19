@@ -27,7 +27,7 @@ class AddUserIdColumnForServersTable extends Migration
     public function down()
     {
         Schema::table('servers', function (Blueprint $table) {
-            $table->dropColumn('user_id');
+            $table->dropConstrainedForeignId('user_id');
         });
     }
 }

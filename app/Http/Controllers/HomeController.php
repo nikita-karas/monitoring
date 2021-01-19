@@ -21,7 +21,7 @@ class HomeController extends Controller
 
         $servers = Server::with('game')
             ->where('name', 'LIKE', "%{$search}%")
-            ->orderBy('name')
+            ->orderBy('players', 'DESC')
             ->paginate(50);
 
         return view('index')->with([

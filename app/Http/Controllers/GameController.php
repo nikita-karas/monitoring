@@ -33,7 +33,7 @@ class GameController extends Controller
             $q->where('url', $slug);
         })
             ->where('name', 'LIKE', "%{$search}%")
-            ->orderBy('name')
+            ->orderBy('players', 'DESC')
             ->paginate(50);
 
         return view('pages.game')->with([
