@@ -12,6 +12,7 @@
                     <p>Map: {{ $server->map }}</p>
                     <p>Players: {{ $server->players }}/{{ $server->max_players }}</p>
                     <p>Updated: {{ $time }} minutes ago</p>
+                    <p>Owner: {{ $server->user->name }}</p>
                 </div>
             </div>
         </div>

@@ -11,11 +11,10 @@ class ServerController extends Controller
 {
     public function index($slug, $id)
     {
-        $server = Server::find($id);
+        $server = Server::with('user')->find($id);
 
         if ($server) {
             $timeUpdate = $server->updated_at;
-
             $Query = new SourceQuery();
             try {
                 $Query->Connect($server->ip, $server->port, 3, $server->game->getQueryEngine());
@@ -29,14 +28,11 @@ class ServerController extends Controller
 
             $title = 'Server page';
             $time = Carbon::now()->parse($timeUpdate)->diffInMinutes();
-            if(!empty($players)){
+            if (!empty($players)) {
                 return view('pages.server', compact('title', 'server', 'players', 'time'));
-            } else {
-                return view('pages.server', compact('title', 'server', 'time'));
             }
-
-        } else {
-            return view('errors.404');
+            return view('pages.server', compact('title', 'server', 'time'));
         }
+        return view('errors.404');
     }
 }
