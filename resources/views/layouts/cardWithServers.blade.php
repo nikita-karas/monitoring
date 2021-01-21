@@ -27,7 +27,7 @@
                     <th>Status</th>
                 </tr>
                 </thead>
-                <tbody class="text-xs">
+                <tbody class="text-xs text-lg-center">
                 @foreach($servers as $server)
                     <tr class=@if($server['online']) "table-success"> @else "table-dark"> @endif
                         <td><img src="{{ $server->game['icon'] }}"></td>

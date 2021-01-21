@@ -29,11 +29,14 @@
                         </a>
                         <div class="dropdown-menu dropdown-menu-end">
                             <a class="dropdown-item"
+                               href="{{ route('profile') }}"><i
+                                    data-feather="user"></i>Profile</a>
+                            <a class="dropdown-item"
                                href="https://steamcommunity.com/profiles/{{ $user['steam_id'] }}"><i
-                                    data-feather="user"></i> Steam profile</a>
+                                    data-feather="user"></i>Steam profile</a>
                             <a class="dropdown-item"
                                href="{{ route('server.add.page') }}"><i
-                                    data-feather="plus-circle"></i> Add server</a>
+                                    data-feather="plus-circle"></i>Add server</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="{{ route('logout') }}"><i data-feather="log-out"></i>
                                 Logout</a>

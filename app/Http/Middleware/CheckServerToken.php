@@ -19,6 +19,7 @@ class CheckServerToken
     {
         if ($request->bearerToken()) {
 
+            // For 'create' route
             if ($request->isMethod('POST')) {
                 $user = User::where('api_token', $request->bearerToken())->first();
                 if ($user) {
@@ -38,8 +39,7 @@ class CheckServerToken
                 return response()->json('User is not the owner of this server', 403);
             }
 
-        } else {
-            return response()->json('Token not found', 403);
         }
+        return response()->json('Token not found', 403);
     }
 }
