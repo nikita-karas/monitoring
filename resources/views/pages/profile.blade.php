@@ -1,27 +1,24 @@
 @extends('layouts.voler')
 @section('content')
-    <script>
 
-    </script>
     <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
             <h4 class="card-title">Your servers</h4>
-            <button type="button" class="btn btn-primary round" data-bs-toggle="modal" data-bs-target="#exampleModal"
-                    data-bs-whatever="@mdo">Token
+            <button type="button" class="btn btn-primary round" data-bs-toggle="modal" data-bs-target="#modal">Token
             </button>
 
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+            <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="modalLabel"
                  aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Your token</h5>
+                            <h5 class="modal-title" id="modalLabel">Your token</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <form>
                                 <div class="mb-3">
-                                    <input type="text" class="form-control" id="message-text"
+                                    <input type="text" class="form-control" id="token-text"
                                            value="{{ $user['api_token'] }}">
                                     <input type="button" class="mt-2 float-end" data-feather="copy"
                                            onclick="myFunction()">
@@ -30,9 +27,9 @@
                         </div>
                         <div class="modal-footer">
                             @if($diff >= 1)
-                                <form method="post" id="change-token-form" action="{{ route('token.change') }}">
+                                <form method="post" action="{{ route('token.change') }}">
                                     @csrf
-                                    <button type="submit" class="btn btn-light" id="change-token" data-bs-dismiss="modal" name="id" value="{{ $user->id }}">
+                                    <button type="submit" class="btn btn-light" name="id" value="{{ $user->id }}">
                                         Update
                                     </button>
                                 </form>
@@ -62,7 +59,7 @@
                         <th>Status</th>
                     </tr>
                     </thead>
-                    <tbody class="text-xs text-lg-center">
+                    <tbody class="text-xs text-lg-start">
                     @foreach($user->servers as $server)
                         <tr class=@if($server['online']) "table-success"> @else "table-dark"> @endif
                             <td>{{ $server->created_at->format('d/m/Y H:i:s') }}</td>
@@ -79,14 +76,13 @@
                             <td>{{ $server['map'] }}</td>
                             <td><span class=@if($server['online']) "badge bg-success">Active @else "badge
                                     bg-danger">Inactive @endif</span></td>
-                            <td class="text-lg-center">
-                                <form method="post" id="delete-form-{{ $server->id }}"
-                                      action="{{ route('server.delete') }}">
+                            <td>
+                                <form id="del-event-{{$server['id']}}" method="POST"
+                                      action="{{ route('server.delete', ['id' => $server['id']]) }}">
                                     @csrf
-                                    <button type="submit" name="delete" id="delete-server-{{ $server->id }}"
-                                            value="{{ $server->id }}"></button>
-                                    </br>
-                                    <label for="delete-server-{{ $server->id }}">Delete</label>
+                                    @method('delete')
+                                    <button type="submit" id="del-id-{{$server['id']}}" class="btn icon btn-danger"
+                                            data-toggle="tooltip" title='Delete'><i data-feather="x"></i></button>
                                 </form>
                             </td>
                         </tr>
@@ -96,5 +92,22 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function myFunction() {
+            /* Get the text field */
+            var copyText = document.getElementById("token-text");
+
+            /* Select the text field */
+            copyText.select();
+            copyText.setSelectionRange(0, 99999); /* For mobile devices */
+
+            /* Copy the text inside the text field */
+            document.execCommand("copy");
+
+            /* Alert the copied text */
+            alert("Copied: " + copyText.value);
+        }
+    </script>
 
 @endsection

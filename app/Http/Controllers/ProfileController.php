@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Carbon\Carbon;
-use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
+use App\Models\User;
+use App\Models\Server;
 use Illuminate\Support\Str;
 
 class ProfileController extends Controller
@@ -20,7 +20,6 @@ class ProfileController extends Controller
 
             return view('pages.profile')->with([
                 'title' => 'Profile',
-                'user' => Auth::user(),
                 'diff' => $diff,
             ]);
         } else {
@@ -36,9 +35,9 @@ class ProfileController extends Controller
         return back()->with('status', "Token updated");
     }
 
-    public function destroyServer(Request $request)
+    public function destroyServer($id)
     {
-        $server = Server::find($request->delete);
+        $server = Server::find($id);
         $server->delete();
         return back()->with('status', "Server {$server->name} removed");
     }

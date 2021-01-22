@@ -29,8 +29,8 @@ Route::prefix('/auth')->group(function () {
 
 Route::prefix('/profile')->group(function (){
     Route::get('/', [ProfileController::class, 'index'])->name('profile');
-    Route::post('/', [ProfileController::class, 'destroyServer'])->name('server.delete');
-    Route::post('/token', [ProfileController::class, 'changeToken'])->name('token.change');
+    Route::post('/', [ProfileController::class, 'changeToken'])->name('token.change');
+    Route::delete('/{id}', [ProfileController::class, 'destroyServer'])->name('server.delete');
 });
 
 Route::prefix('/add')->group(function () {
