@@ -29,15 +29,19 @@ class ProfileController extends Controller
 
     public function changeToken(Request $request)
     {
-        $user = User::find($request->id);
+        if (!$request->diff || $request->diff == 0){
+            return back()->withErrors(["error" => "Token update is possible once a day"]);
+        }
+
+        $user = User::find($request->user_id);
         $user->api_token = Str::random(80);
         $user->save();
         return back()->with('status', "Token updated");
     }
 
-    public function destroyServer($id)
+    public function destroyServer(Request $request)
     {
-        $server = Server::find($id);
+        $server = Server::find($request->id);
         $server->delete();
         return back()->with('status', "Server {$server->name} removed");
     }

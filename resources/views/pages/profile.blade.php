@@ -2,6 +2,7 @@
 @section('content')
 
     <div class="card">
+
         <div class="card-header d-flex justify-content-between align-items-center">
             <h4 class="card-title">Your servers</h4>
             <button type="button" class="btn btn-primary round" data-bs-toggle="modal" data-bs-target="#modal">Token
@@ -27,9 +28,10 @@
                         </div>
                         <div class="modal-footer">
                             @if($diff >= 1)
-                                <form method="post" action="{{ route('token.change') }}">
+                                <form method="post"
+                                      action="{{ route('token.change', ['user_id' => $user->id, 'diff' => $diff]) }}">
                                     @csrf
-                                    <button type="submit" class="btn btn-light" name="id" value="{{ $user->id }}">
+                                    <button type="submit" class="btn btn-light" name="id">
                                         Update
                                     </button>
                                 </form>
@@ -40,57 +42,67 @@
                 </div>
             </div>
         </div>
+        @if ($errors->any())
+            <div class="alert alert-danger text-center">
+                <p>{{ $error }}</p>
+            </div>
+        @endif
         @if (session('status'))
             <div class="alert alert-success text-center">
                 <p>{{ session('status') }}</p>
             </div>
         @endif
         <div class="card-body px-0 pb-0">
-            <div class="table-responsive">
-                <table class="table mb-0" id="table1">
-                    <thead>
-                    <tr>
-                        <th>Date added</th>
-                        <th>Game</th>
-                        <th>Name</th>
-                        <th>IP:Port</th>
-                        <th>Players</th>
-                        <th>Map</th>
-                        <th>Status</th>
-                    </tr>
-                    </thead>
-                    <tbody class="text-xs text-lg-start">
-                    @foreach($user->servers as $server)
-                        <tr class=@if($server['online']) "table-success"> @else "table-dark"> @endif
-                            <td>{{ $server->created_at->format('d/m/Y H:i:s') }}</td>
-                            <td><img src="{{ $server->game['icon'] }}"></td>
-                            <td>
-                                <a href="{{ route('server.page', ['slug' => $server->game['url'], 'id' => $server['id']]) }}">{{ $server['name'] }}</a>
-                            </td>
-                            <td>{{ $server['ip'] . ":" }}{{ $server['port'] }}</td>
-                            @if($server['online'])
-                                <td>{{ $server['players'] }}/{{ $server['max_players'] }}</td>
-                            @else
-                                <td></td>
-                            @endif
-                            <td>{{ $server['map'] }}</td>
-                            <td><span class=@if($server['online']) "badge bg-success">Active @else "badge
-                                    bg-danger">Inactive @endif</span></td>
-                            <td>
-                                <form id="del-event-{{$server['id']}}" method="POST"
-                                      action="{{ route('server.delete', ['id' => $server['id']]) }}">
-                                    @csrf
-                                    @method('delete')
-                                    <button type="submit" id="del-id-{{$server['id']}}" class="btn icon btn-danger"
-                                            data-toggle="tooltip" title='Delete'><i data-feather="x"></i></button>
-                                </form>
-                            </td>
+            @if($user->servers[0])
+                <div class="table-responsive">
+                    <table class="table mb-0" id="table1">
+                        <thead>
+                        <tr>
+                            <th>Date added</th>
+                            <th>Game</th>
+                            <th>Name</th>
+                            <th>IP:Port</th>
+                            <th>Players</th>
+                            <th>Map</th>
+                            <th>Status</th>
                         </tr>
-                    @endforeach
-                    </tbody>
-                </table>
-            </div>
+                        </thead>
+                        <tbody class="text-xs text-lg-start">
+                        @foreach($user->servers as $server)
+                            <tr class=@if($server['online']) "table-success"> @else "table-dark"> @endif
+                                <td>{{ $server->created_at->format('d/m/Y H:i:s') }}</td>
+                                <td><img src="{{ $server->game['icon'] }}"></td>
+                                <td>
+                                    <a href="{{ route('server.page', ['slug' => $server->game['url'], 'id' => $server['id']]) }}">{{ $server['name'] }}</a>
+                                </td>
+                                <td>{{ $server['ip'] . ":" }}{{ $server['port'] }}</td>
+                                @if($server['online'])
+                                    <td>{{ $server['players'] }}/{{ $server['max_players'] }}</td>
+                                @else
+                                    <td></td>
+                                @endif
+                                <td>{{ $server['map'] }}</td>
+                                <td><span class=@if($server['online']) "badge bg-success">Active @else "badge
+                                        bg-danger">Inactive @endif</span></td>
+                                <td>
+                                    <form id="del-event-{{$server['id']}}" method="POST"
+                                          action="{{ route('server.delete', ['id' => $server['id']]) }}">
+                                        @csrf
+                                        @method('delete')
+                                        <button type="submit" id="del-id-{{$server['id']}}" class="btn icon btn-danger"
+                                                data-toggle="tooltip" title='Delete'><i data-feather="x"></i></button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            @else
+                <h4 class="text-center">No servers found....</h4>
+            @endif
         </div>
+
     </div>
 
     <script>
