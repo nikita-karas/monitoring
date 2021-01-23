@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Server;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class ProfileController extends Controller
@@ -17,9 +18,9 @@ class ProfileController extends Controller
         ]);
     }
 
-    public function changeToken(Request $request)
+    public function changeToken()
     {
-        $user = User::find($request->user_id);
+        $user = User::find(Auth::user()['id']);
 
         $date = Carbon::parse($user->api_token_created_at);
         $now = Carbon::now();
@@ -36,6 +37,10 @@ class ProfileController extends Controller
     public function destroyServer(Request $request)
     {
         $server = Server::find($request->id);
+        if ($server->user_id !== Auth::user()['id']){
+            return response()->json('Access is denied', 403);
+        }
+
         $server->delete();
         return back()->with('status', "Server {$server->name} removed");
     }

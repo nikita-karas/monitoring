@@ -28,7 +28,7 @@
                         </div>
                         <div class="modal-footer">
                             <form method="post"
-                                  action="{{ route('token.change', ['user_id' => $user->id]) }}">
+                                  action="{{ route('token.change') }}">
                                 @csrf
                                 <button type="submit" class="btn btn-light" name="id">
                                     Update
