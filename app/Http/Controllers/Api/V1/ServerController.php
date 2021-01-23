@@ -71,40 +71,39 @@ Game - {$game->name} | Name - '{$arrInfo['HostName']}' | IP:PORT - {$validated['
     public function read(int $id)
     {
         $server = Server::find($id);
-        if ($server) {
-            return response()->json($server->toArray());
+        if (!$server) {
+            return response()->json('Server not found', 404);
         }
-        return response()->json('Server not found', 404);
+        return response()->json($server->toArray());
     }
 
     public function update(Request $request, int $id)
     {
         $server = Server::find($id);
-        if ($server) {
-
-            $request->request->remove('id');
-            $request->request->remove('user_id');
-            try {
-                $server->fill($request->all());
-                $server->save();
-                return response()->json('Server data updated successfully');
-            } catch (Exception $e) {
-                return response()->json($e->getMessage(), 500);
-            }
-
+        if (!$server) {
+            return response()->json('Server not found', 404);
         }
-        return response()->json('Server not found', 404);
+        $request->request->remove('id');
+        $request->request->remove('user_id');
+
+        try {
+            $server->fill($request->all());
+            $server->save();
+            return response()->json('Server data updated successfully');
+        } catch (Exception $e) {
+            return response()->json($e->getMessage(), 500);
+        }
     }
 
 
     public function delete(int $id)
     {
         $server = Server::find($id);
-        if ($server) {
-            $server->delete();
-            return response()->json('Server successfully removed');
+        if (!$server) {
+            return response()->json('Server not found', 404);
         }
-        return response()->json('Server not found', 404);
+        $server->delete();
+        return response()->json('Server successfully removed');
     }
 
     public function search(Request $request)
@@ -157,10 +156,10 @@ Game - {$game->name} | Name - '{$arrInfo['HostName']}' | IP:PORT - {$validated['
         }
 
         $servers = Server::where($paramSets)->paginate(100);
-        if ($servers[0]) {
-            return response()->json($servers);
-        } else {
+        if (!$servers[0]) {
             return response()->json('Server not found', 404);
         }
+
+        return response()->json($servers);
     }
 }

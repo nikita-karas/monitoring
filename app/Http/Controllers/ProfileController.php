@@ -20,14 +20,13 @@ class ProfileController extends Controller
 
     public function changeToken()
     {
-        $user = User::find(Auth::user()['id']);
-
-        $date = Carbon::parse($user->api_token_created_at);
+        $date = Carbon::parse(Auth::user()['api_token_created_at']);
         $now = Carbon::now();
-
         if ($date->diffInDays($now) < 1){
             return back()->withErrors(['error' => 'You can create a new token only once every 24 hours']);
         }
+
+        $user = User::find(['id']);
         $user->api_token = Str::random(80);
         $user->api_token_created_at = now();
         $user->save();
@@ -37,7 +36,7 @@ class ProfileController extends Controller
     public function destroyServer(Request $request)
     {
         $server = Server::find($request->id);
-        if ($server->user_id !== Auth::user()['id']){
+        if(!$server || !$server->user_id || $server->user_id !== Auth::user()['id']){
             return response()->json('Access is denied', 403);
         }
 

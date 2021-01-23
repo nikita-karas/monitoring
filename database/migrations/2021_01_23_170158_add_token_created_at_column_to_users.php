@@ -15,7 +15,6 @@ class AddTokenCreatedAtColumnToUsers extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->dateTime('api_token_created_at')->after('api_token')
-                ->unique()
                 ->nullable()
                 ->default(null);
         });
