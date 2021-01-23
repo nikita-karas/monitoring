@@ -27,15 +27,13 @@
                             </form>
                         </div>
                         <div class="modal-footer">
-                            @if($diff >= 1)
-                                <form method="post"
-                                      action="{{ route('token.change', ['user_id' => $user->id, 'diff' => $diff]) }}">
-                                    @csrf
-                                    <button type="submit" class="btn btn-light" name="id">
-                                        Update
-                                    </button>
-                                </form>
-                            @endif
+                            <form method="post"
+                                  action="{{ route('token.change', ['user_id' => $user->id]) }}">
+                                @csrf
+                                <button type="submit" class="btn btn-light" name="id">
+                                    Update
+                                </button>
+                            </form>
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         </div>
                     </div>
@@ -44,7 +42,9 @@
         </div>
         @if ($errors->any())
             <div class="alert alert-danger text-center">
-                <p>{{ $error }}</p>
+                @foreach($errors->all() as $error)
+                    <p>{{ $error }}</p>
+                @endforeach
             </div>
         @endif
         @if (session('status'))

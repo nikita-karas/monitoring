@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Auth\SteamAuthController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Middleware\CheckServerToken;
+use App\Http\Middleware\Authenticate;
 use App\Http\Controllers\ServerAddController;
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\ServerController;
@@ -28,17 +28,16 @@ Route::prefix('auth')->group(function () {
     Route::get('logout', [SteamAuthController::class, 'logout'])->name('logout');
 });
 
-Route::prefix('profile')->group(function () {
-    Route::get('', [ProfileController::class, 'index'])->name('profile');
-    Route::middleware([CheckServerToken::class])->group(function () {
+Route::middleware([Authenticate::class])->group(function () {
+    Route::prefix('profile')->group(function () {
+        Route::get('', [ProfileController::class, 'index'])->name('profile');
         Route::post('', [ProfileController::class, 'changeToken'])->name('token.change');
         Route::delete('{id}', [ProfileController::class, 'destroyServer'])->name('server.delete');
     });
-});
-
-Route::prefix('add')->group(function () {
-    Route::get('', [ServerAddController::class, 'index'])->name('server.add.page');
-    Route::post('', [ServerAddController::class, 'addServer'])->name('server.store');
+    Route::prefix('add')->group(function () {
+        Route::get('', [ServerAddController::class, 'index'])->name('server.add.page');
+        Route::post('', [ServerAddController::class, 'addServer'])->name('server.store');
+    });
 });
 
 Route::get('{slug}', [GameController::class, 'index'])->name('game.page');
