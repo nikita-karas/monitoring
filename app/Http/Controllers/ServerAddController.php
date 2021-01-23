@@ -16,13 +16,9 @@ class ServerAddController extends Controller
 
     public function index()
     {
-        if (Auth::check()) {
-            return view('pages.serverAdd')->with([
-                'title' => 'Add server',
-            ]);
-        } else {
-            return redirect('/auth/login');
-        }
+        return view('pages.serverAdd')->with([
+            'title' => 'Add server',
+        ]);
     }
 
     public function addServer(Request $request)

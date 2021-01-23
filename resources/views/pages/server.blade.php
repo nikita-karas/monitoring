@@ -12,7 +12,9 @@
                     <p>Map: {{ $server->map }}</p>
                     <p>Players: {{ $server->players }}/{{ $server->max_players }}</p>
                     <p>Updated: {{ $time }} minutes ago</p>
-                    <p>Owner: {{ $server->user->name }}</p>
+                    @if(isset($server->user->name))
+                        <p>Owner: {{ $server->user->name }}</p>
+                    @endif
                 </div>
             </div>
         </div>
