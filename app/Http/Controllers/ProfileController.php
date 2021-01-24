@@ -26,7 +26,7 @@ class ProfileController extends Controller
             return back()->withErrors(['error' => 'You can create a new token only once every 24 hours']);
         }
 
-        $user = User::find(['id']);
+        $user = User::find(Auth::user()['id']);
         $user->api_token = Str::random(80);
         $user->api_token_created_at = now();
         $user->save();

@@ -85,12 +85,11 @@
                                 <td><span class=@if($server['online']) "badge bg-success">Active @else "badge
                                         bg-danger">Inactive @endif</span></td>
                                 <td>
-                                    <form id="del-event-{{$server['id']}}" method="POST"
-                                          action="{{ route('server.delete', ['id' => $server['id']]) }}">
+                                    <form method="POST" action="{{ route('server.delete', ['id' => $server['id']]) }}">
                                         @csrf
                                         @method('delete')
-                                        <button type="submit" id="del-id-{{$server['id']}}" class="btn icon btn-danger"
-                                                data-toggle="tooltip" title='Delete'><i data-feather="x"></i></button>
+                                        <button type="submit" class="btn icon btn-danger" onclick="return confirm('Are you sure you want to delete the record ?')"
+                                                title='Delete'><i data-feather="x"></i></button>
                                     </form>
                                 </td>
                             </tr>

@@ -84,6 +84,7 @@ class SteamAuthController extends Controller
             'avatar_medium' => $data->getAvatarMedium(),
             'player_level' => $data->getPlayerLevel(),
             'api_token' => Str::random(80),
+            'api_token_created_at' => now(),
             // ...and other what you need
         ]);
     }
